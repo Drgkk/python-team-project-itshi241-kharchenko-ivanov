@@ -1,0 +1,1 @@
+# python-team-project-itshi241-kharchenko-ivanov
