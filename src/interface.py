@@ -4,7 +4,7 @@ def show_welcome_message() -> None:
     :param data: none
     :return: welcome message
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    print("Welcome to the password generator! Please, abide to the following instructions.")
 
 
 def get_password_length() -> int:
@@ -13,7 +13,15 @@ def get_password_length() -> int:
     :param data: none
     :return: return user specified length
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    while True:
+        try:
+            length = int(input("Enter the desired password length: "))
+            if length <= 0:
+                print("Please enter a positive integer greater than 0.")
+                continue
+            return length
+        except ValueError:
+            print("Invalid input. Please enter a whole number.")
 
 def get_character_set_choices() -> list[bool]:
     """
@@ -21,7 +29,21 @@ def get_character_set_choices() -> list[bool]:
     :param data: none
     :return: return user specified character set
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    def ask_yes_no(prompt: str) -> bool:
+        while True:
+            answer = input(prompt).strip().lower()
+            if answer in ("y", "yes"):
+                return True
+            if answer in ("n", "no"):
+                return False
+            print("Please answer with yes/y or no/n.")
+
+    include_uppercase = ask_yes_no("Include uppercase letters? (y/n): ")
+    include_lowercase = ask_yes_no("Include lowercase letters? (y/n): ")
+    include_digits = ask_yes_no("Include digits? (y/n): ")
+    include_special = ask_yes_no("Include special characters? (y/n): ")
+
+    return [include_uppercase, include_lowercase, include_digits, include_special]
 
 def display_generated_password(password: str) -> None:
     """
@@ -29,7 +51,7 @@ def display_generated_password(password: str) -> None:
     :param data: generated password
     :return: display generated password on screen
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    print(f"Generated password: {password}")
 
 
 def display_password_strength(strength: str) -> None:
@@ -38,7 +60,7 @@ def display_password_strength(strength: str) -> None:
     :param data: password strength
     :return: display password strength on screen
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    print(f"Password strength: {strength}")
 
 def ask_to_continue() -> bool:
     """
@@ -46,4 +68,10 @@ def ask_to_continue() -> bool:
     :param data: none
     :return: whether to continue program execution
     """
-    raise NotImplementedError("Interface function not implemented yet.")
+    while True:
+        answer = input("Do you want to generate another password? (y/n): ").strip().lower()
+        if answer in ("y", "yes"):
+            return True
+        if answer in ("n", "no"):
+            return False
+        print("Please answer with yes/y or no/n.")
