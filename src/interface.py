@@ -1,3 +1,5 @@
+import os
+
 def show_welcome_message() -> None:
     """
     Display the program title and short instructions to the user.
@@ -75,3 +77,24 @@ def ask_to_continue() -> bool:
         if answer in ("n", "no"):
             return False
         print("Please answer with yes/y or no/n.")
+
+def reset_output_file(output_file: str) -> None:
+    """
+    Clear the contents of the output file so a new run starts with an empty file.
+    :param data: Path to file
+    :return: none
+    """
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, "w", encoding="utf-8") as file:
+        file.write("")
+
+
+def append_password_to_text(password: str, strength: str, output_file: str) -> None:
+    """
+    Append the generated password and its strength to the output file.
+    :param data: Password, Strength, Path to file
+    :return: none
+    """
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, "a", encoding="utf-8") as file:
+        file.write(f"Password: {password}   :   {strength}\n")
