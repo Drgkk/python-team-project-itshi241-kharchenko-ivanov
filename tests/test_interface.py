@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 import sys
 import os
+import tempfile
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
 import interface
@@ -44,6 +45,33 @@ class TestInterfaceFunctions(unittest.TestCase):
         with patch("builtins.input", return_value="y"):
             result = interface.ask_to_continue()
             self.assertIsInstance(result, bool)
+
+    def test_reset_output_file_clears_existing_content(self):
+        #Tests that the function clears hte existing content of a specified file
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_file = os.path.join(tmp_dir, "output.txt")
+
+            with open(output_file, "w", encoding="utf-8") as file:
+                file.write("old content")
+
+            interface.reset_output_file(output_file)
+
+            with open(output_file, "r", encoding="utf-8") as file:
+                content = file.read()
+
+            self.assertEqual(content, "")
+
+    def test_append_password_to_text_writes_content(tmp_path):
+        #Tests that the function appends text to a file as expected
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_file = os.path.join(tmp_dir, "output.txt")
+
+            interface.append_password_to_text("Abc123!", "Strong", output_file)
+
+            with open(output_file, "r", encoding="utf-8") as file:
+                content = file.read()
+
+            assert content == "Password: Abc123!   :   Strong\n"   
 
 
 if __name__ == "__main__":
